@@ -4,34 +4,34 @@ This repository holds the assignment problems for the Compiler Design course and
 
 **Problem statements and full guidelines:** [problems/assignments.pdf](problems/assignments.pdf)
 
-**Deadline:** DD Month YYYY, 23:59 IST
+**Deadline:** 28 October 2026, 23:59 IST
 
 ## Problems
 
-| # | Problem | Track | Difficulty | Team |
-|---|---------|-------|-----------|------|
-| 1 | LL(1) Grammar Workbench | A | Medium | 1 |
-| 2 | LR(1)/LALR(1) Workbench and Conflict Analyzer | A | Hard | 1-2 |
-| 3 | Syntax Error Recovery Simulator | A | Medium | 1 |
-| 4 | Lexer Generator: Regular Expressions to Minimized DFA | A | Medium | 1 |
-| 5 | Mini Parser Generator | A | Hard | 2 |
-| 6 | Attribute Grammar Evaluator | A | Medium | 1 |
-| 7 | Mini SQL Query Compiler and Optimizer | B | Medium-Hard | 1-2 |
-| 8 | Tensor Expression DSL Compiled to Optimized Loop Nests | B | Hard | 1-2 |
-| 9 | DAG Construction and Local Optimization | C | Medium | 1 |
-| 10 | CFG and Data-Flow Analysis Framework | C | Hard | 1-2 |
-| 11 | Register Allocation by Graph Coloring | C | Hard | 1-2 |
-| 12 | SSA Construction and SSA-Based Optimization | C | Hard | 1-2 |
-| 13 | Code Complexity and Maintainability Analyzer | D | Easy-Medium | 1 |
-| 14 | AST-Based Code Clone and Plagiarism Detector | D | Medium | 1 |
-| 15 | AST-Based Security Analyzer with Taint Tracking | D | Hard | 1-2 |
-| 16 | AST Query Engine (a Mini CodeQL / Semgrep) | D | Medium-Hard | 1 |
-| 17 | Call Graph Generator and Dead Code Finder | D | Medium | 1 |
-| 18 | OpenQASM Front End: Lexer, Parser and Semantic Checker | E | Medium | 1 |
-| 19 | Quantum Circuit Optimizer (Peephole and DAG-Based) | E | Hard | 1-2 |
-| 20 | Qubit Mapping and Routing on Hardware Coupling Graphs | E | Hard | 1-2 |
-| 21 | A Small High-Level Quantum Language Compiled to OpenQASM | E | Hard | 2 |
-| 22 | Compiler Pipeline Explorer with Animated Lessons and Quizzes | F | Medium | 2 |
+| # | Problem | Track |
+|---|---------|-------|
+| 1 | LL(1) Grammar Workbench | A |
+| 2 | LR(1)/LALR(1) Workbench and Conflict Analyzer | A |
+| 3 | Syntax Error Recovery Simulator | A |
+| 4 | Lexer Generator: Regular Expressions to Minimized DFA | A |
+| 5 | Mini Parser Generator | A |
+| 6 | Attribute Grammar Evaluator | A |
+| 7 | Mini SQL Query Compiler and Optimizer | B |
+| 8 | Tensor Expression DSL Compiled to Optimized Loop Nests | B |
+| 9 | DAG Construction and Local Optimization | C |
+| 10 | CFG and Data-Flow Analysis Framework | C |
+| 11 | Register Allocation by Graph Coloring | C |
+| 12 | SSA Construction and SSA-Based Optimization | C |
+| 13 | Code Complexity and Maintainability Analyzer | D |
+| 14 | AST-Based Code Clone and Plagiarism Detector | D |
+| 15 | AST-Based Security Analyzer with Taint Tracking | D |
+| 16 | AST Query Engine (a Mini CodeQL / Semgrep) | D |
+| 17 | Call Graph Generator and Dead Code Finder | D |
+| 18 | OpenQASM Front End: Lexer, Parser and Semantic Checker | E |
+| 19 | Quantum Circuit Optimizer (Peephole and DAG-Based) | E |
+| 20 | Qubit Mapping and Routing on Hardware Coupling Graphs | E |
+| 21 | A Small High-Level Quantum Language Compiled to OpenQASM | E |
+| 22 | Compiler Pipeline Explorer with Animated Lessons and Quizzes | F |
 
 Tracks: A Lexing and parsing · B Domain-specific languages · C Optimization and back end · D Static analysis and code metrics · E Quantum compilation · F Educational tooling
 
