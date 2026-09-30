@@ -1,0 +1,833 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage[scaled=0.9]{helvet}
+\usepackage{courier}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+
+% ------------------------------------------------------------------
+% Edit these three lines before distributing
+\newcommand{\courserepo}{https://github.com/venkyjntu-git/compiler-design-assignments-2026-27}
+\newcommand{\coursename}{Compiler Design}
+\newcommand{\deadline}{28 October 2026, 23:59 IST}
+% ------------------------------------------------------------------
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{softbg}{HTML}{F2F6FA}
+
+\titleformat{\section}{\Large\bfseries\color{accent}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{accent}}{\thesubsection}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{2.2ex}{1ex}
+
+\setlist{itemsep=2pt,topsep=3pt,leftmargin=1.6em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{3em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\coursename\ -- Assignment Problems}
+\rhead{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Problem fields
+\newcommand{\fld}[1]{\par\smallskip\textbf{\color{accent}#1}\quad}
+\newcommand{\meta}[1]{%
+  \begin{tcolorbox}[colback=softbg,colframe=softbg,boxsep=2pt,left=4pt,right=4pt,top=2pt,bottom=2pt,arc=2pt]
+  \small\textbf{Track:} #1
+  \end{tcolorbox}}
+
+\newtcolorbox{notebox}{colback=softbg,colframe=accent,boxrule=0.6pt,arc=2pt,left=6pt,right=6pt}
+
+\title{\textbf{\coursename: Assignment Problems}\\[4pt]\large 22 Project Problems and Submission Guidelines}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\vspace{-3em}
+
+\begin{notebox}
+Each group chooses \textbf{one} of the 22 problems below and builds a working tool with a complete README.
+All work is submitted in the course repository
+\href{\courserepo}{\texttt{\courserepo}} as described in Section~\ref{sec:submission}.
+Submission deadline: \textbf{\deadline}.
+\end{notebox}
+
+\tableofcontents
+\newpage
+
+% ==================================================================
+\section{Overview of the problems}
+% ==================================================================
+
+The problems are grouped into six tracks. Each problem connects a syllabus topic to a tool that
+compiler and developer-tooling engineers actually build, so the finished project also serves as a
+portfolio and resume item. 
+
+\begin{longtable}{@{}r p{12.5cm} c@{}}
+\toprule
+\textbf{\#} & \textbf{Problem} & \textbf{Track} \\
+\midrule
+\endhead
+1  & LL(1) Grammar Workbench & A \\
+2  & LR(1)/LALR(1) Workbench and Conflict Analyzer & A \\
+3  & Syntax Error Recovery Simulator & A \\
+4  & Lexer Generator: Regular Expressions to Minimized DFA & A \\
+5  & Mini Parser Generator & A \\
+6  & Attribute Grammar Evaluator & A \\
+7  & Mini SQL Query Compiler and Optimizer & B \\
+8  & Tensor Expression DSL Compiled to Optimized Loop Nests & B \\
+9  & DAG Construction and Local Optimization & C \\
+10 & CFG and Data-Flow Analysis Framework & C \\
+11 & Register Allocation by Graph Coloring & C \\
+12 & SSA Construction and SSA-Based Optimization & C \\
+13 & Code Complexity and Maintainability Analyzer & D \\
+14 & AST-Based Code Clone and Plagiarism Detector & D \\
+15 & AST-Based Security Analyzer with Taint Tracking & D \\
+16 & AST Query Engine (a Mini CodeQL / Semgrep) & D \\
+17 & Call Graph Generator and Dead Code Finder & D \\
+18 & OpenQASM Front End: Lexer, Parser and Semantic Checker & E \\
+19 & Quantum Circuit Optimizer (Peephole and DAG-Based) & E \\
+20 & Qubit Mapping and Routing on Hardware Coupling Graphs & E \\
+21 & A Small High-Level Quantum Language Compiled to OpenQASM & E \\
+22 & Compiler Pipeline Explorer with Animated Lessons and Quizzes & F \\
+\bottomrule
+\end{longtable}
+
+\textbf{Tracks.} A: Lexing and parsing. B: Domain-specific languages. C: Optimization and back end.
+D: Static analysis and code metrics. E: Quantum compilation with OpenQASM. F: Visual and educational compiler tooling.
+
+\textbf{Structure of each problem.} Every problem gives a \emph{problem statement}, the \emph{goal}
+(what you should learn), \emph{required features} (needed for full marks), \emph{stretch goals}
+(bonus), \emph{problem-specific deliverables} (in addition to the common rules in
+Section~\ref{sec:submission}) and a \emph{career relevance} line you can adapt for your resume.
+
+% ==================================================================
+\section{Track A: Lexing and parsing}
+% ==================================================================
+
+\subsection{Problem 1: Interactive LL(1) Grammar Workbench}
+\meta{A}
+
+\fld{Problem statement.} Students compute FIRST and FOLLOW sets and LL(1) tables by hand and rarely
+see why a grammar fails. Build a tool that takes any context-free grammar, transforms it toward LL(1)
+form, builds the predictive parsing table, and animates the parse of an input string step by step.
+
+\fld{Goal.} Master FIRST/FOLLOW computation, left-recursion elimination, left factoring and
+table-driven predictive parsing.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Grammar input in a simple text format (\texttt{E -> E + T | T}), with $\varepsilon$ support.
+  \item Elimination of direct and indirect left recursion, and left factoring, showing the grammar before and after.
+  \item FIRST and FOLLOW sets, with the iteration in which each symbol was added.
+  \item LL(1) table with conflicting cells highlighted, and a verdict (LL(1) or not) with the reason.
+  \item Step-by-step parse trace (stack, input, action) and the resulting parse tree.
+\end{itemize}
+
+\fld{Stretch goals.} Panic-mode error recovery using synchronizing sets; export of the table to
+\LaTeX; generation of a recursive-descent parser from the grammar.
+
+\fld{Problem-specific deliverables.} At least 10 test grammars in \texttt{examples/}, including three
+non-LL(1) grammars with explained conflicts. A web interface is preferred.
+
+\fld{Career relevance.} ``Built a web-based LL(1) parser workbench with grammar transformation and animated parsing.''
+
+\subsection{Problem 2: LR(1) and LALR(1) Parser Workbench with Conflict Analyzer}
+\meta{A}
+
+\fld{Problem statement.} Build a tool that constructs the canonical LR(1) item sets, the ACTION and
+GOTO tables, and the merged LALR(1) tables for a given grammar. It must detect shift-reduce and
+reduce-reduce conflicts and explain each one with a counterexample input.
+
+\fld{Goal.} Understand LR(0), SLR(1), LR(1) and LALR(1) construction, and why LALR merging can
+introduce reduce-reduce conflicts.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Canonical LR(1) collection with closure and goto, drawn as a DFA of item sets.
+  \item ACTION/GOTO tables for SLR(1), LR(1) and LALR(1), with state counts for each.
+  \item Conflict report: state, lookahead, conflicting items, and a shortest input prefix that reaches the conflict.
+  \item Shift-reduce parse trace for an input string, building the parse tree bottom-up.
+  \item Precedence and associativity declarations (as in Yacc) to resolve conflicts, showing which entries changed.
+\end{itemize}
+
+\fld{Stretch goals.} Side-by-side LL(1) versus LR(1) comparison on the same grammar; import of grammars in Bison format.
+
+\fld{Problem-specific deliverables.} Include the dangling-else grammar, the classic expression grammar,
+and one grammar that is LR(1) but not LALR(1), each analysed in the README.
+
+\fld{Career relevance.} ``Implemented canonical LR(1)/LALR(1) table construction and a conflict explainer, similar to Bison's counterexample feature.''
+
+\subsection{Problem 3: Syntax Error Recovery Simulator}
+\meta{A}
+
+\fld{Problem statement.} Real compilers must continue after the first syntax error and report useful
+messages. Build a parser for a small C-like language that demonstrates and compares panic-mode,
+phrase-level and error-production recovery.
+
+\fld{Goal.} Learn how synchronizing tokens, insertion/deletion repairs and error productions affect
+message quality and cascading errors.
+
+\fld{Required features.}
+\begin{itemize}
+  \item A grammar for a mini language (declarations, assignments, \texttt{if}, \texttt{while}, blocks, expressions).
+  \item Three recovery strategies selectable by a flag, each producing line and column error messages.
+  \item A benchmark of at least 30 faulty programs, measuring errors reported, spurious (cascading) errors and recovery success for each strategy.
+  \item Repair suggestions such as ``missing `\texttt{;}' before `\texttt{while}'\,'' where possible.
+\end{itemize}
+
+\fld{Stretch goals.} Minimum-cost repair using a small edit-distance search; comparison of your messages
+with GCC or Clang output on equivalent C snippets.
+
+\fld{Problem-specific deliverables.} A results table in the README comparing the three strategies.
+
+\fld{Career relevance.} ``Designed and benchmarked three syntax error-recovery strategies for a C-like language.''
+
+\subsection{Problem 4: Lexer Generator: Regular Expressions to Minimized DFA}
+\meta{A}
+
+\fld{Problem statement.} Build a mini \texttt{lex}. It reads token definitions written as regular
+expressions, converts them to an NFA (Thompson's construction), then to a DFA (subset construction),
+minimizes the DFA, and emits a working lexer. Demonstrate it on at least two different languages
+from separate specification files.
+
+\fld{Goal.} Connect automata theory to practical scanners, including longest-match and rule-priority behaviour.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Regex parser supporting concatenation, union, Kleene star, plus, optional, character classes and escapes.
+  \item Thompson NFA, subset-construction DFA and Hopcroft minimization, each visualized with Graphviz.
+  \item Maximal munch with rule priority; line and column tracking; error tokens.
+  \item Token specifications for two languages (for example a C subset and a Python subset with indentation tokens).
+  \item The generated lexer as source code, not only an interpreter.
+\end{itemize}
+
+\fld{Stretch goals.} Compare generated-lexer speed with a hand-written lexer and with Python's
+\texttt{re}; Unicode support.
+
+\fld{Problem-specific deliverables.} State counts before and after minimization for each specification, reported in the README.
+
+\fld{Career relevance.} ``Wrote a lexer generator from regular expressions to minimized DFA with code generation.''
+
+\subsection{Problem 5: Mini Parser Generator (Grammar to Parser Source Code)}
+\meta{A}
+
+\fld{Problem statement.} Build a small parser generator in the spirit of Yacc or ANTLR. Given an
+annotated grammar file, it generates the source code of an LL(1) recursive-descent parser or an
+LALR(1) table-driven parser that builds an AST.
+
+\fld{Goal.} Understand parser generators as compilers themselves: a grammar is the input language and
+parser code is the output.
+
+\fld{Required features.}
+\begin{itemize}
+  \item A grammar file format with tokens, rules and semantic actions that construct AST nodes.
+  \item Generation of a standalone parser in at least one target language.
+  \item Grammar checks: undefined symbols, unreachable and unproductive nonterminals, conflicts.
+  \item Demonstration: a generated parser for a calculator language and one for JSON, tested on real inputs.
+\end{itemize}
+
+\fld{Stretch goals.} Two target languages; self-hosting, where the generator's own grammar file is
+parsed by a generated parser.
+
+\fld{Problem-specific deliverables.} Generated code committed under \texttt{examples/generated/}.
+This is the hardest problem in Track A and is intended for a pair.
+
+\fld{Career relevance.} ``Built a parser generator that emits AST-building parsers from annotated grammars.''
+
+\subsection{Problem 6: Attribute Grammar Evaluator}
+\meta{A}
+
+\fld{Problem statement.} Build an engine that takes an attribute grammar (productions plus semantic
+rules over synthesized and inherited attributes), parses an input, builds the dependency graph over
+the parse tree, and evaluates attributes in a valid topological order.
+
+\fld{Goal.} Master syntax-directed definitions, S-attributed and L-attributed grammars, and
+dependency-graph evaluation.
+
+\fld{Required features.}
+\begin{itemize}
+  \item An input format for productions with attribute equations.
+  \item Classification of the grammar as S-attributed, L-attributed or neither.
+  \item Annotated parse tree and dependency-graph visualization, with the evaluation order numbered.
+  \item Cycle detection with a clear error report.
+  \item At least three demonstrations: expression evaluation, type declarations (\texttt{int a, b, c}), and the value of a binary number.
+\end{itemize}
+
+\fld{Stretch goals.} One-pass evaluation during LL parsing for L-attributed grammars; automatic
+translation of an attribute grammar into a syntax-directed translation scheme.
+
+\fld{Problem-specific deliverables.} The README must show one dependency graph drawn by hand next to your tool's output.
+
+\fld{Career relevance.} ``Implemented an attribute-grammar evaluator with dependency analysis and visualization.''
+
+% ==================================================================
+\section{Track B: Domain-specific languages}
+% ==================================================================
+
+Domain-specific languages (DSLs) are small languages built for one job, such as SQL for data or
+Halide for image processing. Their compilers reuse every classical phase but add domain knowledge in
+the optimizer, which is where most industrial compiler work happens today.
+
+\subsection{Problem 7: Mini SQL Query Compiler and Optimizer}
+\meta{B}
+
+\fld{Problem statement.} A database engine is a compiler: it parses a SQL query, checks it against
+the schema, turns it into a relational-algebra plan, rewrites the plan into a cheaper equivalent, and
+executes it. Build this pipeline for a subset of SQL running over CSV tables, and show how much the
+optimizer improves execution.
+
+\fld{Goal.} Apply lexing, parsing, semantic analysis and IR rewriting to a real declarative DSL,
+and learn rule-based and cost-based query optimization.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Lexer and parser for \texttt{SELECT} with \texttt{FROM}, \texttt{WHERE}, inner \texttt{JOIN \ldots ON},
+  \texttt{GROUP BY}, \texttt{HAVING}, \texttt{ORDER BY}, \texttt{LIMIT}, and the aggregates
+  \texttt{COUNT}, \texttt{SUM}, \texttt{AVG}, \texttt{MIN}, \texttt{MAX}.
+  \item Semantic analysis against a schema catalog: unknown or ambiguous columns, unknown tables, type
+  errors in predicates, and non-aggregated columns missing from \texttt{GROUP BY}.
+  \item Translation to a logical plan (a relational-algebra tree) drawn as a diagram.
+  \item Rewrite rules: constant folding, predicate pushdown, projection pruning, and join reordering
+  guided by a simple cost model using table sizes and selectivity estimates.
+  \item An iterator-model (Volcano) executor over CSV files, and an \texttt{EXPLAIN} command that prints
+  the plan before and after optimization with estimated costs.
+  \item Validation: results match SQLite on at least 30 queries, and a table compares running time with and without the optimizer.
+\end{itemize}
+
+\fld{Stretch goals.} Compile the optimized plan to Python or C source code instead of interpreting it
+(query compilation, as in HyPer and Umbra); hash joins and simple indexes; comparison with DuckDB's
+\texttt{EXPLAIN} output on the same queries.
+
+\fld{Problem-specific deliverables.} The supported SQL grammar in EBNF, a small test database (for
+example a scaled-down TPC-H or a college-records dataset) with a script to generate it, and the
+validation and timing tables in the README.
+
+\fld{Career relevance.} ``Built a SQL query compiler with rule- and cost-based optimization, validated against SQLite.''
+
+\subsection{Problem 8: Tensor Expression DSL Compiled to Optimized Loop Nests}
+\meta{B}
+
+\fld{Problem statement.} Machine-learning compilers such as Halide, TVM and MLIR separate
+\emph{what} to compute from \emph{how} to compute it. Design a small DSL in which users write tensor
+computations in index notation, for example \texttt{C[i,j] = sum(k) A[i,k] * B[k,j]}, plus a
+separate schedule that says how to reorder, tile or fuse the loops. Compile it to C and measure the speedup.
+
+\fld{Goal.} Learn loop-nest IR, dependence-preserving loop transformations, and the idea of a
+scheduling language, which sits at the core of modern ML compilers.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Lexer and parser for tensor declarations with shapes, index-notation statements, element-wise
+  operators, reductions (\texttt{sum}, \texttt{max}) and common functions (\texttt{exp}, \texttt{relu}).
+  \item Semantic checks: shape mismatches, unbound or unused indices, reduction over an index that also appears on the left-hand side.
+  \item Lowering to a loop-nest IR, printed in readable form.
+  \item Schedule commands: \texttt{reorder}, \texttt{tile}, \texttt{fuse} (for chains of element-wise
+  operations), \texttt{unroll}, and \texttt{parallel} (emitting OpenMP pragmas), with checks that reject illegal transformations.
+  \item C code generation, compiled with GCC or Clang, and verified against NumPy for random inputs.
+  \item Benchmarks for matrix multiplication, a 2D convolution and a softmax: naive loops versus your
+  best schedule versus NumPy, at three problem sizes.
+\end{itemize}
+
+\fld{Stretch goals.} An auto-tuner that searches tile sizes and loop orders automatically; CUDA code
+generation; a comparison of the same schedule written in TVM or Halide.
+
+\fld{Problem-specific deliverables.} A language and schedule reference in \texttt{docs/language.md},
+the generated C code for each benchmark in \texttt{examples/generated/}, and a benchmark table or chart in the README.
+
+\fld{Career relevance.} ``Built a Halide/TVM-style tensor DSL compiler with loop scheduling, achieving measured speedups over naive C.''
+
+% ==================================================================
+\section{Track C: Optimization and back end}
+% ==================================================================
+
+\subsection{Problem 9: DAG Construction and Local Optimization of Basic Blocks}
+\meta{C}
+
+\fld{Problem statement.} Given TAC, partition it into basic blocks, build a DAG for each block, and use
+the DAG to perform local optimizations. Regenerate optimized code from the DAG and measure the improvement.
+
+\fld{Goal.} Understand basic blocks, value numbering and why DAGs expose redundancy.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Leader detection and basic-block partitioning.
+  \item DAG construction per block, visualized with node labels and attached identifiers.
+  \item Common subexpression elimination, dead-code elimination, constant folding, copy propagation and algebraic simplification (such as \texttt{x * 1}, \texttt{x + 0}, and strength reduction of \texttt{x * 2}).
+  \item Code regeneration from the DAG, with a heuristic node ordering that reduces temporaries.
+  \item A before/after table of instruction count and temporaries per block.
+\end{itemize}
+
+\fld{Stretch goals.} Handling of array and pointer assignments that kill DAG nodes; comparison of
+local value numbering with the DAG method.
+
+\fld{Problem-specific deliverables.} At least 10 blocks taken from textbook exercises, verified against hand-worked answers.
+
+\fld{Career relevance.} ``Implemented DAG-based local optimizations (CSE, constant folding, DCE) over three-address code.''
+
+\subsection{Problem 10: Control Flow Graph and Data-Flow Analysis Framework}
+\meta{C}
+
+\fld{Problem statement.} Build a framework that constructs the control flow graph (CFG) of each
+function and runs classic data-flow analyses using a generic iterative worklist solver. Use the
+results to report variable lifetimes and dependencies.
+
+\fld{Goal.} Learn the lattice-based data-flow framework shared by all modern optimizers.
+
+\fld{Required features.}
+\begin{itemize}
+  \item CFG construction from TAC or from a Python or C subset, with Graphviz output.
+  \item A generic solver parameterized by direction, meet operator and transfer function.
+  \item Four analyses built on it: reaching definitions, live variables, available expressions and very busy expressions.
+  \item Dominator tree and natural-loop detection.
+  \item A variable lifetime report: live ranges per variable, dead stores, use-before-definition warnings, and a def-use chain graph.
+\end{itemize}
+
+\fld{Stretch goals.} Loop-invariant code motion using the analyses; constant propagation over a three-level lattice.
+
+\fld{Problem-specific deliverables.} For each analysis, the README shows the IN/OUT sets for one
+example program and the number of iterations needed to reach the fixed point. The README should also
+briefly discuss why detecting all infinite loops is undecidable.
+
+\fld{Career relevance.} ``Built a generic data-flow analysis framework (liveness, reaching definitions, dominators) with CFG visualization.''
+
+\subsection{Problem 11: Register Allocation by Graph Coloring}
+\meta{C}
+
+\fld{Problem statement.} Implement Chaitin--Briggs register allocation. From liveness information,
+build the interference graph, color it with $k$ registers, and insert spill code when coloring fails.
+Compare the result with a linear-scan allocator.
+
+\fld{Goal.} Understand how live ranges become registers, and the trade-off between allocation quality and compile time.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Liveness analysis and interference-graph construction from TAC or a simple RISC-like IR.
+  \item Simplify, spill and select phases, with an animation of the node stack.
+  \item Move coalescing (conservative Briggs or George test).
+  \item Spill-code insertion, re-running allocation until it succeeds.
+  \item A linear-scan allocator for comparison: spills and running time on the same inputs for $k = 2$ to $8$.
+\end{itemize}
+
+\fld{Stretch goals.} Emit runnable RISC-V assembly and run it on a simulator such as RARS or Spike;
+spill-cost heuristics based on loop depth.
+
+\fld{Problem-specific deliverables.} A table or chart of spill count versus $k$ for both allocators on at least 8 programs.
+
+\fld{Career relevance.} ``Implemented Chaitin--Briggs graph-coloring register allocation with coalescing, compared against linear scan.''
+
+\subsection{Problem 12: SSA Construction and SSA-Based Optimization}
+\meta{C}
+
+\fld{Problem statement.} Convert a CFG into Static Single Assignment (SSA) form using dominance
+frontiers, run SSA-based optimizations, and convert back out of SSA. This is the IR style used by
+LLVM, GCC and most research compilers.
+
+\fld{Goal.} Learn dominance frontiers, $\phi$-function placement, variable renaming, and why SSA simplifies optimization.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Dominator tree (Lengauer--Tarjan or the iterative Cooper--Harvey--Kennedy algorithm) and dominance frontiers.
+  \item Minimal or pruned $\phi$ placement and renaming.
+  \item Sparse conditional constant propagation and dead-code elimination on SSA.
+  \item Out-of-SSA translation with copy insertion.
+  \item Before/after CFG drawings.
+\end{itemize}
+
+\fld{Stretch goals.} Global value numbering; comparison of your output with
+\texttt{clang -O1 -emit-llvm} on equivalent C code, with a discussion of the differences.
+
+\fld{Problem-specific deliverables.} A short design note in \texttt{docs/} explaining one example end to end.
+
+\fld{Career relevance.} ``Implemented SSA construction and SCCP, mirroring LLVM's mem2reg and SCCP passes.''
+
+% ==================================================================
+\section{Track D: Static analysis and code metrics}
+% ==================================================================
+
+These problems work on real source code (Python via the \texttt{ast} module, or C, Java or JavaScript
+via tree-sitter). Using an existing parser is allowed in this track, because the learning target is
+analysis over the AST, not parsing.
+
+\subsection{Problem 13: Code Complexity and Maintainability Analyzer}
+\meta{D}
+
+\fld{Problem statement.} Build a command-line and web tool that computes per-function and per-file
+quality metrics for a codebase and flags hotspots: cyclomatic complexity, cognitive complexity,
+Halstead metrics, nesting depth and the Maintainability Index.
+
+\fld{Goal.} Understand how CFGs and ASTs turn into measurable software-quality metrics, and how the metrics differ.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Cyclomatic complexity from the CFG ($V(G) = E - N + 2P$) and from decision-point counting, showing that both agree.
+  \item Cognitive complexity following the SonarSource specification (nesting increments, no penalty for \texttt{switch} shorthand).
+  \item Halstead volume, difficulty, effort and estimated bugs from operator and operand counts.
+  \item Maximum nesting depth, function length, parameter count, and a simple identifier-naming quality check.
+  \item Maintainability Index with thresholds, and a colored HTML hotspot report.
+  \item Runs on at least three open-source repositories, with your numbers compared against \texttt{radon} or \texttt{lizard}.
+\end{itemize}
+
+\fld{Stretch goals.} A GitHub Action that comments metric changes on pull requests; a trend chart across a repository's git history.
+
+\fld{Problem-specific deliverables.} The README explains each formula with a worked example function
+and discusses one case where cyclomatic and cognitive complexity disagree.
+
+\fld{Career relevance.} ``Built a code-quality analyzer (cyclomatic, cognitive, Halstead, MI) running as a GitHub Action.''
+
+\subsection{Problem 14: AST-Based Code Clone and Plagiarism Detector}
+\meta{D}
+
+\fld{Problem statement.} Build a detector that finds duplicated code within a project and similarity
+between student submissions, robust to renaming, reformatting and reordering of statements.
+
+\fld{Goal.} Learn clone types 1 to 4 and compare token-based, AST-based and fingerprint-based detection.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Normalization: strip comments and whitespace, and rename identifiers and literals canonically.
+  \item Token-based detection with winnowing fingerprints (the MOSS algorithm).
+  \item AST-based detection using subtree hashing for Type-2 and Type-3 clones.
+  \item A pairwise similarity matrix shown as a heatmap, and a side-by-side view of matched regions.
+  \item An evaluation set of 10 original programs and 30 disguised copies (renamed, reordered, dead code added), with precision and recall reported per method.
+\end{itemize}
+
+\fld{Stretch goals.} CFG or program-dependence-graph comparison for Type-4 (semantic) clones; comparison with JPlag.
+
+\fld{Problem-specific deliverables.} The evaluation set committed with ground-truth labels.
+
+\fld{Career relevance.} ``Designed an AST and fingerprint-based plagiarism detector with measured precision and recall.''
+
+\subsection{Problem 15: AST-Based Security Analyzer with Taint Tracking}
+\meta{D}
+
+\fld{Problem statement.} Build a static application security testing (SAST) tool for Python or
+JavaScript. It detects dangerous patterns and tracks untrusted input (taint) from sources to sinks
+within functions.
+
+\fld{Goal.} Apply data-flow analysis to security, the way tools such as Bandit, Semgrep and CodeQL do.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Pattern rules: \texttt{eval}/\texttt{exec}, shell commands with \texttt{shell=True}, hard-coded secrets, weak hashes (MD5, SHA-1), insecure deserialization (\texttt{pickle.loads}).
+  \item Intraprocedural taint analysis with sources (request parameters, \texttt{input()}), sanitizers, and sinks (SQL queries, OS commands, file paths).
+  \item A report with CWE identifier, severity, line, and the taint path from source to sink.
+  \item SARIF output so results appear in GitHub code scanning.
+  \item A test suite of at least 20 vulnerable and 20 safe snippets, with false positives and false negatives reported.
+\end{itemize}
+
+\fld{Stretch goals.} Interprocedural taint through a call graph; comparison with Bandit on the same code.
+
+\fld{Problem-specific deliverables.} Rules defined in a YAML file, so that adding a rule needs no code change.
+
+\fld{Career relevance.} ``Built a SAST tool with taint analysis and SARIF output integrated into GitHub code scanning.''
+
+\subsection{Problem 16: AST Query Engine (a Mini CodeQL / Semgrep)}
+\meta{D}
+
+\fld{Problem statement.} Design a small query language for searching code structurally, for example
+``find functions with more than three nested loops'' or ``find calls to \texttt{open} that are not
+inside a \texttt{with} block''. Build the engine that parses a query and evaluates it against ASTs.
+
+\fld{Goal.} Design a domain-specific language end to end (grammar, parser, semantic checks,
+evaluator) and apply it to program analysis.
+
+\fld{Required features.}
+\begin{itemize}
+  \item A grammar for the query language: node types, attribute predicates, parent/ancestor/descendant relations, logical operators and metavariables such as \texttt{\$X}.
+  \item A query parser with helpful error messages.
+  \item An evaluator over Python ASTs (or several languages via tree-sitter).
+  \item At least 15 ready-made queries for common bugs and code smells.
+  \item Results reported as file, line and matched snippet, with JSON output.
+\end{itemize}
+
+\fld{Stretch goals.} A pattern syntax written as code with holes (like Semgrep's \texttt{foo(\$X, ...)});
+automatic rewrite rules (find-and-replace on ASTs).
+
+\fld{Problem-specific deliverables.} The query language grammar given in EBNF in the README.
+
+\fld{Career relevance.} ``Designed a structural code-search DSL and query engine over ASTs.''
+
+\subsection{Problem 17: Call Graph Generator and Dead Code Finder}
+\meta{D}
+
+\fld{Problem statement.} Build a tool that constructs the call graph of a multi-file project,
+visualizes it, and uses it to find unreachable functions, recursion cycles and the most central functions.
+
+\fld{Goal.} Learn call-graph construction, the difficulty posed by dynamic dispatch, and graph algorithms applied to programs.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Multi-file call-graph construction for Python, C or Java, resolving imports.
+  \item Handling of methods through class-hierarchy analysis for virtual or overridden calls, with its imprecision documented.
+  \item An interactive graph view with zoom, search and collapse by module.
+  \item Reports: functions unreachable from entry points, recursive cycles (strongly connected components), fan-in and fan-out, and most-called functions.
+  \item A run on one real open-source project of at least 5{,}000 lines.
+\end{itemize}
+
+\fld{Stretch goals.} Rapid type analysis to prune impossible targets; comparison of the static graph
+with a dynamic one recorded by a profiler.
+
+\fld{Problem-specific deliverables.} A section discussing false and missed edges found in the real-project run.
+
+\fld{Career relevance.} ``Built a multi-file call-graph analyzer with dead-code and recursion detection.''
+
+% ==================================================================
+\section{Track E: Quantum compilation with OpenQASM}
+% ==================================================================
+
+Quantum compilers apply the same ideas as classical ones (lexing, parsing, IR, peephole optimization,
+resource allocation) to quantum circuits, and form an active research area. No physics background is
+needed beyond treating gates as matrices. Qiskit or Cirq may be used \emph{only} to simulate circuits
+and check your results, never to do the work the problem asks for.
+
+\textbf{Suggested reading for this track.} The OpenQASM~3 specification (\url{https://openqasm.com});
+the Qiskit transpiler documentation; Y.~Nam et al., ``Automated optimization of large quantum
+circuits with continuous parameters'' (2018); G.~Li, Y.~Ding and Y.~Xie, ``Tackling the Qubit Mapping
+Problem for NISQ-Era Quantum Devices'' (the SABRE paper, 2019).
+
+\subsection{Problem 18: OpenQASM Front End: Lexer, Parser and Semantic Checker}
+\meta{E}
+
+\fld{Problem statement.} Build a front end for a well-defined subset of OpenQASM~3 (with
+OpenQASM~2 compatibility). It tokenizes and parses QASM programs, builds an AST, checks semantics, and
+lowers the program to a flat gate-list IR that Problems 19 to 21 can reuse.
+
+\fld{Goal.} Apply the full classical front-end pipeline to a real, standardized quantum language.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Lexer and hand-written or generated parser for: the \texttt{OPENQASM} version header, \texttt{include}, \texttt{qubit}/\texttt{bit} (and \texttt{qreg}/\texttt{creg}) declarations, built-in and user-defined \texttt{gate} definitions with parameters, gate calls, \texttt{measure}, \texttt{reset}, \texttt{barrier}, and parameter expressions using \texttt{pi}.
+  \item Semantic checks: undeclared registers, index out of range, wrong arity, wrong parameter count, the same qubit used twice in one gate, recursive gate definitions.
+  \item Gate-definition inlining (macro expansion) down to a basic gate set.
+  \item Output: the AST as JSON, the circuit drawn as text or SVG, and circuit statistics (qubits, gates by type, depth).
+  \item Verification: for circuits of up to 8 qubits, simulate your IR with a small state-vector simulator (your own or Qiskit's) and compare with Qiskit's parse of the same file.
+\end{itemize}
+
+\fld{Stretch goals.} Classical control (\texttt{if}, \texttt{for}, \texttt{while}) with loop
+unrolling when bounds are constant; round-trip printing back to valid QASM.
+
+\fld{Problem-specific deliverables.} The supported grammar subset in EBNF, and at least 20 QASM test
+files (including small circuits from the QASMBench suite).
+
+\fld{Career relevance.} ``Built an OpenQASM~3 compiler front end with semantic checking, verified against Qiskit.''
+
+\subsection{Problem 19: Quantum Circuit Optimizer (Peephole and DAG-Based)}
+\meta{E}
+
+\fld{Problem statement.} Build an optimizer that reduces the gate count and depth of quantum circuits
+while preserving the unitary. Represent circuits as a DAG of gates on qubit wires (the same idea as
+DAGs for basic blocks) and apply rewrite rules.
+
+\fld{Goal.} Transfer classical optimizations (peephole, algebraic simplification, commutation-based
+reordering) to a quantum IR, and measure their effect honestly.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Circuit DAG construction from QASM (using Problem 18 or a simple parser).
+  \item Passes: cancellation of adjacent inverse pairs (H--H, CX--CX, S--S$^\dagger$), rotation merging ($R_z(a)\,R_z(b) = R_z(a+b)$), removal of identity rotations, commutation rules that bring cancellable gates together, and single-qubit gate fusion.
+  \item A pass manager that runs passes to a fixed point and logs the effect of each pass.
+  \item Correctness check: unitaries of input and output compared (up to global phase) for circuits of up to 10 qubits.
+  \item A benchmark on at least 15 circuits (QASMBench or RevLib): gate count, CX count, T count and depth before and after, compared with Qiskit's transpiler at optimization levels 1 and 3.
+\end{itemize}
+
+\fld{Stretch goals.} ZX-calculus simplification with PyZX as a comparison baseline; template matching from a small library of circuit identities.
+
+\fld{Problem-specific deliverables.} A benchmark table and chart in the README, with a short discussion of which passes mattered most.
+
+\fld{Career relevance.} ``Developed a DAG-based quantum circuit optimizer, benchmarked against Qiskit's transpiler.''
+
+\subsection{Problem 20: Qubit Mapping and Routing on Hardware Coupling Graphs}
+\meta{E}
+
+\fld{Problem statement.} Real quantum chips only allow two-qubit gates between physically connected
+qubits. Build a compiler pass that maps logical qubits to physical ones and inserts SWAP gates so
+that every two-qubit gate is legal, while minimizing the added SWAPs and depth. This is the quantum
+counterpart of register allocation.
+
+\fld{Goal.} Understand constrained resource allocation as a graph problem, and implement a published heuristic.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Coupling graphs as JSON input: line, ring, 2D grid, heavy-hex, and one real device topology.
+  \item Initial placement: a trivial mapping and a greedy mapping based on the interaction graph.
+  \item Routing: a naive shortest-path SWAP router and the SABRE look-ahead heuristic with bidirectional passes.
+  \item Output: routed QASM, with verification that every two-qubit gate respects the coupling graph and that the circuit is equivalent.
+  \item Results: SWAP count and depth overhead for each router on at least 10 benchmark circuits and 3 topologies, compared with Qiskit's \texttt{SabreSwap}.
+\end{itemize}
+
+\fld{Stretch goals.} An exact solver (SAT or integer programming) for small circuits to measure the
+gap between the heuristic and the optimum; noise-aware mapping using per-edge error rates.
+
+\fld{Problem-specific deliverables.} An animation or step view of the mapping as SWAPs are inserted.
+
+\fld{Career relevance.} ``Implemented the SABRE qubit-routing algorithm and evaluated it on heavy-hex and grid topologies.''
+
+\subsection{Problem 21: A Small High-Level Quantum Language Compiled to OpenQASM}
+\meta{E}
+
+\fld{Problem statement.} Design a tiny high-level quantum language with named registers, loops,
+functions, controlled operations and simple reversible arithmetic. Write a compiler that translates
+it into OpenQASM for a chosen native gate set and reports resource estimates.
+
+\fld{Goal.} Build a complete compiler pipeline (lexer, parser, semantic checks, IR, lowering, code
+generation) whose target is quantum.
+
+\fld{Required features.}
+\begin{itemize}
+  \item Language grammar and parser, with the semantic rules that qubits cannot be copied (no-cloning) and are not reused after measurement without \texttt{reset}.
+  \item Constructs: \texttt{for} with constant bounds (unrolled), functions (inlined), a \texttt{ctrl} modifier, the inverse (\texttt{adj}) of a function obtained by reversing and inverting its gates, and an in-place adder on qubit registers.
+  \item Decomposition passes: multi-controlled X into Toffolis with ancillas, Toffoli into Clifford+T, and arbitrary single-qubit gates into a target basis (for example $\{R_z, \sqrt{X}, X, \mathrm{CX}\}$).
+  \item A resource estimator reporting qubits, ancillas, CX count, T count and depth.
+  \item Demonstration programs: Bell and GHZ states, Deutsch--Jozsa, Grover search on 3 qubits, and the quantum Fourier transform, with simulated outputs matching the expected distributions.
+\end{itemize}
+
+\fld{Stretch goals.} Automatic uncomputation of ancillas; passing the output through the optimizer of Problem 19.
+
+\fld{Problem-specific deliverables.} A language reference in \texttt{docs/language.md} with the grammar and one fully compiled example.
+
+\fld{Career relevance.} ``Designed a quantum programming language and compiler targeting OpenQASM with Clifford+T resource estimation.''
+
+% ==================================================================
+\section{Track F: Visual and educational compiler tooling}
+% ==================================================================
+
+\subsection{Problem 22: Compiler Pipeline Explorer with Animated Lessons and Adaptive Quizzes}
+\meta{F}
+
+\fld{Problem statement.} Build a web-based learning platform where a student types a short program
+and watches it move through every compiler phase: tokens, parse tree, AST, symbol table,
+three-address code, optimized code and target code. Pair it with animated explanations of LL(1) and
+LR(1) parsing made with Manim, and quizzes generated from the student's own inputs.
+
+\fld{Goal.} Combine several course topics into one product, and practise building educational
+software that other students will actually use.
+
+\fld{Required features.}
+\begin{itemize}
+  \item A pipeline view with each phase in its own panel, and hover-linking between a source token and its AST node, TAC lines and target instructions.
+  \item At least two Manim videos (3--5 minutes each): an LL(1) parse and an LR(1) parse of the same string on the same grammar, contrasting top-down and bottom-up parsing.
+  \item A quiz engine that generates questions automatically (``What is FIRST($T$)?'', ``Fill this LL(1) table cell'', ``Shift or reduce in this state?'', ``How many basic blocks?'') with instant feedback and explanations.
+  \item Progress tracking per topic, with harder questions after correct answers.
+  \item A usability test with at least 5 classmates: a short survey and a before/after quiz score comparison.
+\end{itemize}
+
+\fld{Stretch goals.} A ``compiler as a story'' mode in which each phase is a character narrating
+what it does; public deployment on GitHub Pages or Vercel.
+
+\fld{Problem-specific deliverables.} A live demo link, Manim source scripts in \texttt{animations/},
+and the usability results in the README. Intended for a pair: one student on the pipeline and
+quizzes, one on the animations.
+
+\fld{Career relevance.} ``Built and deployed an interactive compiler-learning platform with Manim animations and auto-generated quizzes, tested with student users.''
+
+% ==================================================================
+\section{Submission guidelines}\label{sec:submission}
+% ==================================================================
+
+All submissions are made through the course repository:
+\begin{center}
+\href{\courserepo}{\texttt{\courserepo}}
+\end{center}
+
+Put your complete project in the folder for your problem, \path{submissions/P<nn>/}, where
+\texttt{<nn>} is the two-digit problem number (for example, Problem 7 goes in \path{submissions/P07/}).
+Copy \path{templates/README_TEMPLATE.md} into that folder as \texttt{README.md}. Submit before
+\textbf{\deadline}.
+
+\subsection{General rules}
+
+\begin{itemize}
+  \item \textbf{Language.} Any mainstream language (Python, C++, Java, Rust, TypeScript, and so on).
+  Parser generators (ANTLR, Bison, PLY and similar) are allowed only where the problem says so;
+  the core algorithm the problem teaches must be your own code.
+  \item \textbf{Tests.} Tests must run with one command (\texttt{pytest}, \texttt{npm test},
+  \texttt{cargo test}, \ldots) documented in the README. Aim for at least 70\% coverage of the core logic.
+  \item \textbf{Reproducibility.} Installation steps must work on a clean machine. A Dockerfile is welcome.
+  \item \textbf{Demo.} A 3--5 minute screen recording linked in the README, and at least three
+  screenshots or GIFs in \texttt{docs/}.
+  \item \textbf{Academic integrity.} Cite every library, paper, tutorial and AI assistant you used
+  in the \emph{Credits} section. Uncredited copied code is treated as plagiarism. You must be able to
+  explain every line of your code at the viva.
+\end{itemize}
+
+\subsection{README template}
+
+Your \texttt{README.md} must contain the following sections, in this order.
+
+\begin{Verbatim}[fontsize=\small,frame=single,framerule=0.4pt]
+# <Project name>
+One-line description of what the tool does.
+![demo](docs/demo.gif)
+
+## Team
+Name, roll number (and partner), problem number, course, semester.
+
+## Problem statement
+What problem this solves and why it matters (3-5 sentences).
+
+## Background theory
+The compiler concept behind the tool, with one fully worked example
+(e.g. FIRST/FOLLOW sets computed by hand for a small grammar).
+
+## Features
+- Required features implemented (tick each one)
+- Stretch goals implemented
+
+## Architecture
+Diagram of the main modules and data flow; key data structures.
+
+## Installation
+Step-by-step commands for a clean machine.
+
+## Usage
+CLI commands or UI walkthrough with example input and output.
+
+## Examples and results
+Sample runs, benchmark tables, comparison with a reference tool.
+
+## Testing
+How to run the tests and what they cover.
+
+## Limitations and future work
+What does not work yet and how you would extend it.
+
+## Demo video
+Link.
+
+## Credits and references
+Textbook chapters, papers, libraries, AI assistance used.
+\end{Verbatim}
+
+\subsection{Evaluation rubric}
+
+\begin{longtable}{@{}p{5cm} c p{8.6cm}@{}}
+\toprule
+\textbf{Component} & \textbf{Marks} & \textbf{What earns full marks} \\
+\midrule
+\endhead
+Correctness of core algorithm & 2 & Matches textbook results on all given test cases; edge cases handled. \\
+Features and usability & 2 & All required features work; clear CLI or UI; helpful error messages. \\
+README and documentation & 2 & Follows the template; theory explained with a worked example. \\
+Evaluation and results & 2 & Benchmarks, sample outputs or comparison with a reference tool. \\
+Demo and viva & 2 & Student explains the algorithm and design choices without notes. \\
+\bottomrule
+\end{longtable}
+
+\end{document}
