@@ -1,0 +1,1 @@
+x = input(); eval(x)
