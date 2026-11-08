@@ -1,0 +1,2 @@
+path = input()
+open(path)
