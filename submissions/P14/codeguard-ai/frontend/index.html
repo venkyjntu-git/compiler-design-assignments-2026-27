@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeGuard AI – AST-Based Code Clone & Plagiarism Detection System</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- D3.js for SVG Hierarchical Tree Visualizations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+  <!-- Monaco Editor AMD Loader from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#" class="brand" data-navigate="view-dashboard">
+        <div class="brand-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="brand-text">
+          <h1>CodeGuard AI</h1>
+          <div class="brand-tagline">AST-Based Code Clone & Plagiarism Detection System</div>
+        </div>
+      </a>
+
+      <nav class="main-nav">
+        <a class="nav-link active" data-target="view-dashboard"><i class="fa-solid fa-house"></i> Home</a>
+        <a class="nav-link" data-target="view-workspace"><i class="fa-solid fa-code-compare"></i> Workspace</a>
+        <a class="nav-link" data-target="view-results"><i class="fa-solid fa-chart-pie"></i> Results</a>
+        <a class="nav-link" data-target="view-ast"><i class="fa-solid fa-network-wired"></i> AST Tree</a>
+        <a class="nav-link" data-target="view-pipeline"><i class="fa-solid fa-diagram-project"></i> Pipeline</a>
+        <a class="nav-link" data-target="view-history"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+        <a class="nav-link" data-target="view-about"><i class="fa-solid fa-circle-info"></i> About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="main-content">
+
+    <!-- Global Academic Disclaimer Banner -->
+    <div class="academic-disclaimer">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <div>
+        <strong>Compiler Design Course Project:</strong> CodeGuard AI identifies structural code similarity via Abstract Syntax Tree (AST) decomposition, canonical normalization, and tree metrics. High structural similarity indicates shared algorithmic patterns, not definitive proof of plagiarism.
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         VIEW 1: DASHBOARD / HOME
+         ==================================================================== -->
+    <section id="view-dashboard" class="page-view active-view">
+      <div class="hero-card">
+        <div class="hero-text">
+          <h2>Compiler-Grade Code Clone & Plagiarism Detection</h2>
+          <p>
+            Move beyond superficial text diffs. CodeGuard AI parses Python programs into syntactic trees, eliminates lexical formatting trivia, normalizes variable identifiers, and computes genuine structural similarity using Subtree Hashing and Tree Alignments.
+          </p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary" data-navigate="view-workspace">
+              <i class="fa-solid fa-play"></i> Open Comparison Workspace
+            </button>
+            <button class="btn btn-outline-light" data-navigate="view-pipeline">
+              <i class="fa-solid fa-sitemap"></i> Explore Compiler Pipeline
+            </button>
+          </div>
+        </div>
+        <div style="font-size: 5.5rem; color: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center;">
+          <i class="fa-solid fa-diagram-nested"></i>
+        </div>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="dashboard-grid">
+        <div class="feature-card">
+          <div class="feature-icon icon-blue">
+            <i class="fa-solid fa-code-branch"></i>
+          </div>
+          <h3>AST Normalization</h3>
+          <p>Overcomes Type-2 variable and function renaming via scope-aware canonicalization, docstring stripping, and commutative operator reordering.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon icon-purple">
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+          <h3>Multi-Metric Similarity</h3>
+          <p>Combines Subtree Multiset Jaccard/Dice, Pre-order Sequence Alignment, and Node Frequency Cosine metrics into a documented composite score.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon icon-green">
+            <i class="fa-solid fa-circle-nodes"></i>
+          </div>
+          <h3>Interactive AST Visualizer</h3>
+          <p>Inspect expandable and collapsible SVG trees with category-coded node styling, compiler role descriptions, and line-to-node source mapping.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon icon-amber">
+            <i class="fa-solid fa-shield-virus"></i>
+          </div>
+          <h3>Zero-Execution Security</h3>
+          <p>Source programs are strictly analyzed as data structures via Python's built-in <code>ast</code> parser without runtime evaluation or code execution.</p>
+        </div>
+      </div>
+
+      <!-- Quick System Specs Card -->
+      <div class="feature-card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h4 style="font-size:1rem; font-weight:700;"><i class="fa-solid fa-microchip"></i> System Specifications & Environment</h4>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Python 3.14 AST Engine &bull; Flask RESTful API &bull; SQLite Database &bull; Monaco Code Editor &bull; D3.js SVG Hierarchy</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" data-navigate="view-about">
+          Read Project Documentation <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 2: CODE COMPARISON WORKSPACE
+         ==================================================================== -->
+    <section id="view-workspace" class="page-view">
+      
+      <!-- Top Action Controls -->
+      <div class="workspace-controls-bar">
+        <div class="sample-selector-group">
+          <label for="sample-case-select"><i class="fa-solid fa-flask"></i> Load Benchmark Sample:</label>
+          <select id="sample-case-select" class="custom-select">
+            <option value="">-- Choose a Benchmark Sample Case --</option>
+          </select>
+        </div>
+
+        <div class="workspace-actions">
+          <button id="btn-run-compare" class="btn btn-primary">
+            <i class="fa-solid fa-bolt"></i> Compare Programs
+          </button>
+          <button id="btn-swap-code" class="btn btn-secondary" title="Swap Code A and Code B">
+            <i class="fa-solid fa-arrow-right-arrow-left"></i> Swap
+          </button>
+          <button id="btn-clear-code" class="btn btn-secondary" title="Clear both editors">
+            <i class="fa-solid fa-eraser"></i> Clear
+          </button>
+          <button id="btn-reset-code" class="btn btn-secondary" title="Reset to Case 1">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Sample Description Banner -->
+      <div id="sample-desc-banner" class="academic-disclaimer" style="display:none; background:#eff6ff; border-color:#93c5fd; border-left-color:var(--primary); color:#1e40af;">
+      </div>
+
+      <!-- Configurable AST Normalization Settings -->
+      <div class="normalization-settings-card">
+        <div class="norm-header">
+          <h4><i class="fa-solid fa-sliders"></i> AST Normalization Controls</h4>
+          <span class="norm-disclaimer-badge">Normalization settings directly alter structural matching results</span>
+        </div>
+        <div class="norm-toggles-grid">
+          <label class="norm-toggle-item">
+            <input type="checkbox" id="norm-vars" checked>
+            <span>
+              <strong>Normalize Variable Identifiers</strong>
+              <small>Converts local variables to canonical names (e.g. var_0, var_1)</small>
+            </span>
+          </label>
+
+          <label class="norm-toggle-item">
+            <input type="checkbox" id="norm-funcs" checked>
+            <span>
+              <strong>Normalize Functions &amp; Params</strong>
+              <small>Canonicalizes user function names and parameter identifiers</small>
+            </span>
+          </label>
+
+          <label class="norm-toggle-item">
+            <input type="checkbox" id="norm-docs" checked>
+            <span>
+              <strong>Strip Docstrings &amp; Comments</strong>
+              <small>Removes docstring nodes (comments removed by AST natively)</small>
+            </span>
+          </label>
+
+          <label class="norm-toggle-item">
+            <input type="checkbox" id="norm-comm" checked>
+            <span>
+              <strong>Commutative Operation Canonicalization</strong>
+              <small>Orders operands in a + b and a * b deterministically</small>
+            </span>
+          </label>
+
+          <label class="norm-toggle-item">
+            <input type="checkbox" id="norm-consts">
+            <span>
+              <strong>Normalize Literal Constants</strong>
+              <small>Replaces numbers with 0 and strings with &quot;&quot; (default: off)</small>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Syntax Error Banner -->
+      <div id="syntax-error-banner" class="syntax-error-banner"></div>
+
+      <!-- Side-by-Side Editors Grid -->
+      <div class="editors-grid">
+        <!-- Editor A -->
+        <div class="editor-pane">
+          <div class="editor-header">
+            <div class="editor-title">
+              <span class="editor-badge" style="background:#dbeafe; color:#1e40af;">Program A</span>
+              <span id="editor-title-a">program_a.py</span>
+            </div>
+            <div class="editor-tools">
+              <label class="file-upload-label">
+                <i class="fa-solid fa-upload"></i> Upload .py
+                <input type="file" id="file-upload-a" accept=".py" style="display:none;">
+              </label>
+            </div>
+          </div>
+          <div id="editor-container-a" class="editor-container"></div>
+        </div>
+
+        <!-- Editor B -->
+        <div class="editor-pane">
+          <div class="editor-header">
+            <div class="editor-title">
+              <span class="editor-badge" style="background:#ede9fe; color:#5b21b6;">Program B</span>
+              <span id="editor-title-b">program_b.py</span>
+            </div>
+            <div class="editor-tools">
+              <label class="file-upload-label">
+                <i class="fa-solid fa-upload"></i> Upload .py
+                <input type="file" id="file-upload-b" accept=".py" style="display:none;">
+              </label>
+            </div>
+          </div>
+          <div id="editor-container-b" class="editor-container"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         VIEW 3: SIMILARITY ANALYSIS RESULTS DASHBOARD
+         ==================================================================== -->
+    <section id="view-results" class="page-view">
+      
+      <!-- Primary Gauge and Summary Header -->
+      <div class="results-header-card">
+        <div class="similarity-gauge-wrap">
+          <div id="results-gauge-circle" class="gauge-circle">
+            <div class="gauge-inner">
+              <div id="results-gauge-val" class="gauge-percentage">0%</div>
+              <div class="gauge-label">AST SIMILARITY</div>
+            </div>
+          </div>
+          <div id="results-category-badge" class="similarity-badge badge-mod">
+            <i class="fa-solid fa-shield-halved"></i> Moderate structural similarity
+          </div>
+        </div>
+
+        <div class="results-summary-wrap">
+          <h3>Compiler Structural Analysis Summary</h3>
+          <p id="results-summary-text" class="results-narrative">
+            Run a comparison from the Workspace to view compiler AST breakdown and clone classification.
+          </p>
+          <div class="metrics-pills-row">
+            <div class="metric-pill"><i class="fa-solid fa-tree"></i> <span id="pill-nodes-a">Nodes A: 0</span></div>
+            <div class="metric-pill"><i class="fa-solid fa-tree"></i> <span id="pill-nodes-b">Nodes B: 0</span></div>
+            <div class="metric-pill"><i class="fa-solid fa-align-left"></i> <span id="pill-loc-a">LOC A: 0</span></div>
+            <div class="metric-pill"><i class="fa-solid fa-align-left"></i> <span id="pill-loc-b">LOC B: 0</span></div>
+            <button class="btn btn-primary btn-sm" data-navigate="view-ast" style="margin-left:auto;">
+              <i class="fa-solid fa-network-wired"></i> View AST Trees
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multi-Metric Comparison Grid -->
+      <div class="metrics-comparison-grid">
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <span>OVERALL AST SIMILARITY</span>
+            <i class="fa-solid fa-chart-simple" style="color:var(--primary);"></i>
+          </div>
+          <div id="metric-ast-sim" class="metric-card-val">0%</div>
+          <div class="metric-card-sub">Composite Tree Metric</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <span>SUBTREE DICE INDEX</span>
+            <i class="fa-solid fa-diagram-project" style="color:var(--accent-purple);"></i>
+          </div>
+          <div id="metric-subtree-dice" class="metric-card-val">0%</div>
+          <div class="metric-card-sub">Shared Subtree Signatures</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <span>SEQUENCE ALIGNMENT</span>
+            <i class="fa-solid fa-route" style="color:var(--cat-flow);"></i>
+          </div>
+          <div id="metric-seq-alignment" class="metric-card-val">0%</div>
+          <div class="metric-card-sub">Pre-Order AST Traversal</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <span>NODE COSINE METRIC</span>
+            <i class="fa-solid fa-vector-square" style="color:var(--cat-id);"></i>
+          </div>
+          <div id="metric-node-cosine" class="metric-card-val">0%</div>
+          <div class="metric-card-sub">Type Frequency Vector</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <span>TOKEN STREAM SIMILARITY</span>
+            <i class="fa-solid fa-cubes" style="color:var(--cat-lit);"></i>
+          </div>
+          <div id="metric-token-sim" class="metric-card-val">0%</div>
+          <div class="metric-card-sub">Lexer Token Stream</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <span>RAW TEXT SIMILARITY</span>
+            <i class="fa-solid fa-file-lines" style="color:var(--text-dim);"></i>
+          </div>
+          <div id="metric-text-sim" class="metric-card-val">0%</div>
+          <div class="metric-card-sub">Surface Character Match</div>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Synchronized Diff with Matched AST Regions -->
+      <div class="side-by-side-card">
+        <div class="side-by-side-header">
+          <h4><i class="fa-solid fa-highlighter"></i> Side-by-Side Code Mapping &amp; Matched AST Blocks</h4>
+          <div class="diff-legend">
+            <div class="legend-item"><div class="legend-box matched"></div> Matched AST Subtree Lines</div>
+            <div class="legend-item"><div class="legend-box unmatched"></div> Unmatched / Divergent Lines</div>
+          </div>
+        </div>
+        <div class="side-by-side-body">
+          <div id="diff-col-a" class="diff-column"></div>
+          <div id="diff-col-b" class="diff-column"></div>
+        </div>
+      </div>
+
+      <!-- Matched and Unmatched AST Node Types Tables -->
+      <div class="structural-tables-grid">
+        <div class="table-card">
+          <h4>
+            <span><i class="fa-solid fa-check-double" style="color:#16a34a;"></i> Matched AST Node Types</span>
+          </h4>
+          <table id="table-matched-nodes" class="custom-table">
+            <thead>
+              <tr>
+                <th>Node Type</th>
+                <th>Count in A</th>
+                <th>Count in B</th>
+                <th>Delta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">No comparison data yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-card">
+          <h4>
+            <span><i class="fa-solid fa-arrows-split-up-and-left" style="color:#dc2626;"></i> Unmatched AST Node Types</span>
+          </h4>
+          <table id="table-unmatched-nodes" class="custom-table">
+            <thead>
+              <tr>
+                <th>Node Type</th>
+                <th>Present In</th>
+                <th>Occurrences</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" style="text-align:center; color:var(--text-muted);">No comparison data yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         VIEW 4: AST VISUALIZATION
+         ==================================================================== -->
+    <section id="view-ast" class="page-view">
+      
+      <div class="ast-viz-controls">
+        <div class="viz-toggle-buttons">
+          <button id="btn-viz-tree-a" class="viz-toggle-btn active">Program A Tree</button>
+          <button id="btn-viz-tree-b" class="viz-toggle-btn">Program B Tree</button>
+        </div>
+
+        <div class="viz-zoom-controls">
+          <button id="btn-viz-zoom-in" class="btn btn-secondary btn-sm" title="Zoom In"><i class="fa-solid fa-plus"></i></button>
+          <button id="btn-viz-zoom-out" class="btn btn-secondary btn-sm" title="Zoom Out"><i class="fa-solid fa-minus"></i></button>
+          <button id="btn-viz-reset" class="btn btn-secondary btn-sm" title="Reset View"><i class="fa-solid fa-compress"></i> Reset</button>
+          <button id="btn-viz-expand-all" class="btn btn-secondary btn-sm"><i class="fa-solid fa-folder-open"></i> Expand All</button>
+          <button id="btn-viz-collapse-all" class="btn btn-secondary btn-sm"><i class="fa-solid fa-folder"></i> Collapse All</button>
+        </div>
+      </div>
+
+      <!-- AST Canvas & Inspector Layout -->
+      <div class="ast-viewport-container">
+        <!-- SVG Canvas -->
+        <div class="ast-canvas-wrap">
+          <svg id="ast-svg-root"></svg>
+        </div>
+
+        <!-- Node Inspector Panel -->
+        <div id="ast-node-inspector" class="ast-inspector-panel">
+          <div class="inspector-header">
+            <h4><i class="fa-solid fa-magnifying-glass-chart"></i> Node Inspector</h4>
+            <div style="font-size:0.775rem; color:var(--text-muted);">Click any node circle in the tree to inspect compiler attributes</div>
+          </div>
+          <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted);">
+            <i class="fa-solid fa-hand-pointer" style="font-size:2rem; margin-bottom:0.75rem; color:var(--text-dim);"></i>
+            <p>Select an AST node to inspect its properties, source coordinates, and compiler role.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Node Legend -->
+      <div class="feature-card" style="padding:1rem;">
+        <div style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--text-muted);">AST NODE CATEGORY LEGEND:</div>
+        <div style="display:flex; flex-wrap:wrap; gap:1rem; font-size:0.8rem;">
+          <div><span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--cat-stmt); margin-right:4px;"></span> Statements (Assign, Return, FunctionDef)</div>
+          <div><span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--cat-flow); margin-right:4px;"></span> Control Flow (If, For, While, Try)</div>
+          <div><span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--cat-op); margin-right:4px;"></span> Operations (BinOp, UnaryOp, Compare)</div>
+          <div><span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--cat-lit); margin-right:4px;"></span> Literals &amp; Constants (Constant, List, Dict)</div>
+          <div><span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--cat-id); margin-right:4px;"></span> Identifiers &amp; Names (Name, arg)</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: COMPILER WORKFLOW PIPELINE
+         ==================================================================== -->
+    <section id="view-pipeline" class="page-view">
+      
+      <div class="pipeline-visual-card">
+        <h3 style="font-size:1.35rem; font-weight:800; margin-bottom:0.5rem;">Interactive Compiler Design Pipeline</h3>
+        <p style="color:var(--text-muted); font-size:0.925rem;">
+          Click on any stage of the comparison pipeline to explore how modern compilers process source code, construct abstract syntax trees, and detect structural clones.
+        </p>
+
+        <!-- Dynamic Pipeline Steps Container -->
+        <div id="pipeline-diagram-container" class="pipeline-diagram"></div>
+
+        <!-- Deep Dive Explanation Card -->
+        <div id="pipeline-deep-dive-box" class="stage-deep-dive"></div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         VIEW 6: COMPARISON HISTORY
+         ==================================================================== -->
+    <section id="view-history" class="page-view">
+      
+      <div class="history-card">
+        <div class="history-header">
+          <div>
+            <h3 style="font-size:1.25rem; font-weight:700;"><i class="fa-solid fa-database"></i> Saved Comparison History</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Audit log of local comparison reports stored in SQLite.</p>
+          </div>
+          <button id="btn-clear-history" class="btn btn-danger btn-sm">
+            <i class="fa-solid fa-trash-can"></i> Clear All History
+          </button>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table id="history-table" class="custom-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Comparison Pair</th>
+                <th>AST Similarity</th>
+                <th>Text Similarity</th>
+                <th>Nodes (A / B)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="history-empty-placeholder" class="empty-history-placeholder" style="display:none;">
+          <i class="fa-solid fa-inbox"></i>
+          <p>No comparisons saved in history yet. Run a comparison from the Workspace to log reports.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         VIEW 7: ABOUT THE PROJECT & THEORY
+         ==================================================================== -->
+    <section id="view-about" class="page-view">
+      
+      <div class="about-grid">
+        <!-- Main Column -->
+        <div>
+          <div class="about-card">
+            <h3><i class="fa-solid fa-book-open"></i> Project Objectives &amp; Overview</h3>
+            <p>
+              <strong>CodeGuard AI</strong> is an academic compiler design system engineered to evaluate source code similarity at the syntactic and intermediate representation levels. By analyzing Abstract Syntax Trees rather than superficial character sequences, CodeGuard AI reliably detects algorithmic clones regardless of superficial alterations such as identifier renaming, formatting, commentary, or minor statement additions.
+            </p>
+            <p>
+              Built strictly as an educational and pedagogical instrument, the system explains <em>why</em> two pieces of code share structural patterns, exposing students and educators to foundational principles of compiler theory, lexical analysis, syntax trees, tree edit distances, and intermediate canonicalization.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3><i class="fa-solid fa-sitemap"></i> AST vs. Concrete Parse Tree</h3>
+            <p>
+              In compiler frontends, the <strong>Concrete Parse Tree (CST)</strong> represents the full syntactic derivation tree matching the formal grammar rules, retaining punctuation (colons, commas, parenthesis) and grammar non-terminals.
+            </p>
+            <p>
+              The <strong>Abstract Syntax Tree (AST)</strong> condenses this graph by removing syntactic trivia and preserving only semantic operations (such as <code>BinOp</code>, <code>If</code>, <code>For</code>) and operand relations. Consequently, differences in whitespace, indentation style, and comments do not alter the AST topology whatsoever.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3><i class="fa-solid fa-tags"></i> Taxonomy of Code Clones</h3>
+            <div class="clone-types-list">
+              <div class="clone-type-item">
+                <h5>Type-1: Exact Clones</h5>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Identical program fragments except for variations in whitespace, formatting, blank lines, and comments. AST natively generates 100% identical trees.</p>
+              </div>
+              <div class="clone-type-item">
+                <h5>Type-2: Renamed / Parameterized Clones</h5>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Syntactically identical fragments where user-defined identifiers (variables, functions, parameters) or literal constants have been substituted. Solved by CodeGuard AI's AST Normalization.</p>
+              </div>
+              <div class="clone-type-item">
+                <h5>Type-3: Near-Miss / Modified Statement Clones</h5>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Fragments with modified, inserted, or deleted statements. Detected via Subtree Hashing and Sequence Alignment ratios.</p>
+              </div>
+              <div class="clone-type-item">
+                <h5>Type-4: Semantic Clones</h5>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Syntactically disparate algorithms that perform identical computational semantics (e.g. Iterative vs. Recursive Fibonacci). AST comparison identifies distinct syntax structures.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-card">
+            <h3><i class="fa-solid fa-calculator"></i> Mathematical Similarity Formula</h3>
+            <p>CodeGuard AI implements a documented, deterministic multi-metric structural similarity formula:</p>
+            <div class="formula-card">
+              AST_Similarity = (0.55 &times; Subtree_Dice) + (0.30 &times; Sequence_Alignment) + (0.15 &times; Node_Type_Jaccard)
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted);">
+              Where <code>Subtree_Dice = 2 &times; |Subtrees(A) &cap; Subtrees(B)| / (|Subtrees(A)| + |Subtrees(B)|)</code> evaluated on multiset subtree structural signatures.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <div>
+          <div class="about-card">
+            <h3><i class="fa-solid fa-layer-group"></i> Technology Stack</h3>
+            <ul style="padding-left:1.25rem; font-size:0.875rem; color:#334155; line-height:1.8;">
+              <li><strong>Backend:</strong> Python 3.14 + Flask</li>
+              <li><strong>AST Engine:</strong> Built-in <code>ast</code> module</li>
+              <li><strong>Tokenizer:</strong> Built-in <code>tokenize</code> module</li>
+              <li><strong>Database:</strong> SQLite3</li>
+              <li><strong>Editor:</strong> Monaco Code Editor</li>
+              <li><strong>Visualizer:</strong> D3.js SVG Hierarchy</li>
+              <li><strong>Frontend:</strong> HTML5, CSS3, ES6 JavaScript</li>
+            </ul>
+          </div>
+
+          <div class="about-card">
+            <h3><i class="fa-solid fa-scale-balanced"></i> Ethical &amp; Academic Notice</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted);">
+              This system is designed for compiler design education and code quality research. High structural similarity flags potential code cloning, but does not definitively prove intentional plagiarism. Legitimate reasons for structural convergence include standardized algorithmic templates, boilerplate framework code, and instructor-provided starter skeletons.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div style="max-width:1440px; margin:0 auto; padding:0 1.5rem;">
+      <p><strong>CodeGuard AI</strong> &bull; AST-Based Code Clone &amp; Plagiarism Detection System</p>
+      <p style="font-size:0.775rem; color:var(--text-dim); margin-top:0.25rem;">
+        Compiler Design Project &bull; Fully Functional Local Web Application
+      </p>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/ast-visualizer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
