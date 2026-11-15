@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Environment & Logs
+.env
+*.log
+sent_emails_log.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+*.sqlite3
+.venv/
+venv/
+
+# OS Junk
+.DS_Store
+Thumbs.db
+
