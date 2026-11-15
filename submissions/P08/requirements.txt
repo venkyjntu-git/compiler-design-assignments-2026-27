@@ -1,0 +1,5 @@
+# TensorDSLCompiler uses only the Python standard library (Python 3.11+).
+# No third-party packages are required to compile, run, test or benchmark.
+#
+# Optional alternative test runner (the tests also run with plain unittest):
+# pytest>=7.0

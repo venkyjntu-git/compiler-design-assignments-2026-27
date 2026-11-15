@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.vscode/
+# generated Python files are build artifacts; keep the folder itself
+generated/*
+!generated/.gitkeep
