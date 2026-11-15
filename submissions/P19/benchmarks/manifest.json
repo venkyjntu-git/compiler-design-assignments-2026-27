@@ -1,0 +1,128 @@
+[
+  {
+    "name": "deutsch_n2",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/deutsch_n2/deutsch_n2.qasm",
+    "file": "benchmarks\\qasm\\deutsch_n2.qasm"
+  },
+  {
+    "name": "grover_n2",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/grover_n2/grover_n2.qasm",
+    "file": "benchmarks\\qasm\\grover_n2.qasm"
+  },
+  {
+    "name": "iswap_n2",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/iswap_n2/iswap_n2.qasm",
+    "file": "benchmarks\\qasm\\iswap_n2.qasm"
+  },
+  {
+    "name": "quantumwalks_n2",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/quantumwalks_n2/quantumwalks_n2.qasm",
+    "file": "benchmarks\\qasm\\quantumwalks_n2.qasm"
+  },
+  {
+    "name": "basis_change_n3",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/basis_change_n3/basis_change_n3.qasm",
+    "file": "benchmarks\\qasm\\basis_change_n3.qasm"
+  },
+  {
+    "name": "fredkin_n3",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/fredkin_n3/fredkin_n3.qasm",
+    "file": "benchmarks\\qasm\\fredkin_n3.qasm"
+  },
+  {
+    "name": "linearsolver_n3",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/linearsolver_n3/linearsolver_n3.qasm",
+    "file": "benchmarks\\qasm\\linearsolver_n3.qasm"
+  },
+  {
+    "name": "qaoa_n3",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/qaoa_n3/qaoa_n3.qasm",
+    "file": "benchmarks\\qasm\\qaoa_n3.qasm"
+  },
+  {
+    "name": "teleportation_n3",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/teleportation_n3/teleportation_n3.qasm",
+    "file": "benchmarks\\qasm\\teleportation_n3.qasm"
+  },
+  {
+    "name": "toffoli_n3",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/toffoli_n3/toffoli_n3.qasm",
+    "file": "benchmarks\\qasm\\toffoli_n3.qasm"
+  },
+  {
+    "name": "wstate_n3",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/wstate_n3/wstate_n3.qasm",
+    "file": "benchmarks\\qasm\\wstate_n3.qasm"
+  },
+  {
+    "name": "adder_n4",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/adder_n4/adder_n4.qasm",
+    "file": "benchmarks\\qasm\\adder_n4.qasm"
+  },
+  {
+    "name": "bell_n4",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/bell_n4/bell_n4.qasm",
+    "file": "benchmarks\\qasm\\bell_n4.qasm"
+  },
+  {
+    "name": "cat_state_n4",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/cat_state_n4/cat_state_n4.qasm",
+    "file": "benchmarks\\qasm\\cat_state_n4.qasm"
+  },
+  {
+    "name": "hs4_n4",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/hs4_n4/hs4_n4.qasm",
+    "file": "benchmarks\\qasm\\hs4_n4.qasm"
+  },
+  {
+    "name": "inverseqft_n4",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/inverseqft_n4/inverseqft_n4.qasm",
+    "file": "benchmarks\\qasm\\inverseqft_n4.qasm"
+  },
+  {
+    "name": "qft_n4",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/qft_n4/qft_n4.qasm",
+    "file": "benchmarks\\qasm\\qft_n4.qasm"
+  },
+  {
+    "name": "lpn_n5",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/lpn_n5/lpn_n5.qasm",
+    "file": "benchmarks\\qasm\\lpn_n5.qasm"
+  },
+  {
+    "name": "simon_n6",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/simon_n6/simon_n6.qasm",
+    "file": "benchmarks\\qasm\\simon_n6.qasm"
+  },
+  {
+    "name": "sat_n7",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/sat_n7/sat_n7.qasm",
+    "file": "benchmarks\\qasm\\sat_n7.qasm"
+  },
+  {
+    "name": "bb84_n8",
+    "source": "PNNL QASMBench",
+    "url": "https://raw.githubusercontent.com/pnnl/QASMBench/master/small/bb84_n8/bb84_n8.qasm",
+    "file": "benchmarks\\qasm\\bb84_n8.qasm"
+  }
+]
