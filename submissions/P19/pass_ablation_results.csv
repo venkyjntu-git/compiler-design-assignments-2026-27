@@ -1,0 +1,7 @@
+Configuration,Total_Original_Gates,Total_Optimized_Gates,Total_Gates_Eliminated,Reduction_Percentage,Total_Depth
+All_Passes_Enabled,320,223,97,30.31,136
+No_Identity_Removal,320,223,97,30.31,136
+No_Inverse_Cancellation,320,223,97,30.31,136
+No_Rotation_Merging,320,223,97,30.31,136
+No_Commutation_Opt,320,223,97,30.31,136
+No_Single_Qubit_Fusion,320,276,44,13.75,160

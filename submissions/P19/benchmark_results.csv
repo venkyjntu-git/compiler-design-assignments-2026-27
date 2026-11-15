@@ -1,0 +1,20 @@
+Circuit,Source,Qubits,Orig_Gates,Opt_Gates,Gate_Red,Gate_Red_Pct,Orig_Depth,Opt_Depth,Depth_Red,Depth_Red_Pct,Orig_CX,Opt_CX,Orig_T,Opt_T,Time_ms,Equiv_Pass
+deutsch_n2,PNNL QASMBench,2,5,4,1,20.0,4,3,1,25.0,1,1,0,0,0.77,PASS
+grover_n2,PNNL QASMBench,2,16,7,9,56.2,11,5,6,54.5,2,2,0,0,0.81,PASS
+iswap_n2,PNNL QASMBench,2,9,7,2,22.2,7,5,2,28.6,2,2,0,0,0.43,PASS
+quantumwalks_n2,PNNL QASMBench,2,11,11,0,0.0,7,7,0,0.0,3,3,0,0,0.23,PASS
+fredkin_n3,PNNL QASMBench,3,19,18,1,5.3,11,11,0,0.0,8,8,7,6,0.81,PASS
+linearsolver_n3,PNNL QASMBench,3,19,11,8,42.1,11,9,2,18.2,4,4,0,0,0.84,PASS
+qaoa_n3,PNNL QASMBench,3,15,14,1,6.7,11,10,1,9.1,6,6,0,0,0.81,PASS
+teleportation_n3,PNNL QASMBench,3,8,5,3,37.5,6,4,2,33.3,2,2,1,0,0.42,PASS
+toffoli_n3,PNNL QASMBench,3,18,17,1,5.6,12,12,0,0.0,6,6,7,6,0.69,PASS
+wstate_n3,PNNL QASMBench,3,6,6,0,0.0,5,5,0,0.0,1,1,0,0,0.29,PASS
+adder_n4,PNNL QASMBench,4,23,21,2,8.7,11,11,0,0.0,10,10,8,6,1.07,PASS
+bell_n4,PNNL QASMBench,4,33,19,14,42.4,13,9,4,30.8,7,7,0,0,4.92,PASS
+cat_state_n4,PNNL QASMBench,4,4,4,0,0.0,4,4,0,0.0,3,3,0,0,0.15,PASS
+hs4_n4,PNNL QASMBench,4,28,12,16,57.1,9,5,4,44.4,4,4,0,0,1.2,PASS
+qft_n4,PNNL QASMBench,4,12,12,0,0.0,8,8,0,0.0,0,0,0,0,0.23,PASS
+lpn_n5,PNNL QASMBench,5,11,7,4,36.4,4,4,0,0.0,2,2,0,0,0.31,PASS
+simon_n6,PNNL QASMBench,6,16,16,0,0.0,8,8,0,0.0,2,2,0,0,0.34,PASS
+sat_n7,PNNL QASMBench,7,40,27,13,32.5,21,15,6,28.6,0,0,0,0,2.41,PASS
+bb84_n8,PNNL QASMBench,8,27,5,22,81.5,5,1,4,80.0,0,0,0,0,4.27,PASS
